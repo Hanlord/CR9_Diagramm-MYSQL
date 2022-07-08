@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2022 at 11:03 PM
+-- Generation Time: Jul 08, 2022 at 11:57 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -44,9 +44,9 @@ CREATE TABLE `address_c` (
 --
 
 INSERT INTO `address_c` (`id`, `zip`, `country`, `city`, `area`, `fk_shipping_id`, `fk_customer_id`) VALUES
-(1, 1050, 'Austria', 'Vienna', 'Wieden', NULL, 1),
-(2, 1100, 'Austria', 'Vienna', 'Favoriten', NULL, 3),
-(3, 1190, 'Austria', 'Vienna', 'Döbling', NULL, 2);
+(1, 1050, 'Austria', 'Vienna', 'Wieden', 1, 1),
+(2, 1100, 'Austria', 'Vienna', 'Favoriten', 2, 3),
+(3, 1190, 'Austria', 'Vienna', 'Döbling', 3, 2);
 
 -- --------------------------------------------------------
 
@@ -102,6 +102,15 @@ CREATE TABLE `e-commerce` (
   `fk_order_id` int(11) DEFAULT NULL,
   `fk_many_product_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `e-commerce`
+--
+
+INSERT INTO `e-commerce` (`id`, `fk_order_id`, `fk_many_product_id`) VALUES
+(1, 1, 1),
+(2, 2, 3),
+(3, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -163,9 +172,9 @@ CREATE TABLE `office` (
 --
 
 INSERT INTO `office` (`id`, `fk_e_commerce_id`, `fk_employer_id`) VALUES
-(1, NULL, 2),
-(2, NULL, 1),
-(3, NULL, 3);
+(1, 2, 2),
+(2, 1, 1),
+(3, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -178,17 +187,18 @@ CREATE TABLE `order` (
   `product_id` int(11) DEFAULT NULL,
   `amount` float DEFAULT NULL,
   `order_date` datetime DEFAULT NULL,
-  `fk_customer_id` int(11) DEFAULT NULL
+  `fk_customer_id` int(11) DEFAULT NULL,
+  `payment` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `order`
 --
 
-INSERT INTO `order` (`id`, `product_id`, `amount`, `order_date`, `fk_customer_id`) VALUES
-(1, 1, 1, '2022-07-08 22:58:00', 1),
-(2, 2, 2, '2022-07-11 22:59:02', 2),
-(3, 3, 5, '2022-07-04 22:59:47', 3);
+INSERT INTO `order` (`id`, `product_id`, `amount`, `order_date`, `fk_customer_id`, `payment`) VALUES
+(1, 1, 1, '2022-07-08 22:58:00', 1, 'paypal'),
+(2, 2, 2, '2022-07-11 22:59:02', 2, 'creditcard'),
+(3, 3, 5, '2022-07-04 22:59:47', 3, 'mastercard');
 
 -- --------------------------------------------------------
 
@@ -222,6 +232,15 @@ CREATE TABLE `shipping` (
   `id` int(11) NOT NULL,
   `fk_many_product_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shipping`
+--
+
+INSERT INTO `shipping` (`id`, `fk_many_product_id`) VALUES
+(1, 1),
+(2, 2),
+(3, 3);
 
 -- --------------------------------------------------------
 
@@ -334,7 +353,7 @@ ALTER TABLE `stock`
 -- AUTO_INCREMENT for table `address_c`
 --
 ALTER TABLE `address_c`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `company`
@@ -352,7 +371,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `e-commerce`
 --
 ALTER TABLE `e-commerce`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `employer`
@@ -370,7 +389,7 @@ ALTER TABLE `many_product`
 -- AUTO_INCREMENT for table `office`
 --
 ALTER TABLE `office`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `order`
@@ -388,7 +407,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `shipping`
 --
 ALTER TABLE `shipping`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `stock`
